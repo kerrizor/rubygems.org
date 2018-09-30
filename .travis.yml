@@ -1,4 +1,5 @@
 language: ruby
+
 cache:
   bundler: true
   directories:
@@ -8,6 +9,7 @@ cache:
 rvm:
   - 2.3.5
   - ruby-head
+
 addons:
   apt:
     sources:
@@ -41,10 +43,14 @@ script:
   - bundle exec rake rubocop
   - script/brakeman
   - bundle exec cap -T > /dev/null
-  - docker build -t rubygems/rubygems.org:$TRAVIS_COMMIT
 
 jobs:
   include:
+    - stage: docker build
+      rvm: 2.3.5
+      env:
+        - RUBYGEMS_VERSION=2.6.10
+      script: docker build -t rubygems/rubygems.org:$TRAVIS_COMMIT .
     - stage: docker push
       rvm: 2.3.5
       env:
