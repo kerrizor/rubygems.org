@@ -7,7 +7,7 @@ then
   exit 0
 fi
 
-if [ $TRAVIS_RUBY_VERSION != '2.3.5' ]
+if [ $TRAVIS_RUBY_VERSION == 'ruby-head' ]
 then
   exit 0
 fi
