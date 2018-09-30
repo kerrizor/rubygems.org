@@ -42,6 +42,11 @@ script:
   - script/brakeman
   - bundle exec cap -T > /dev/null
 
+after_success:
+  - export REPO=rubygems/rubygems.org
+  - docker build -t $REPO:$TRAVIS_COMMIT .
+  - docker images
+
 env:
   - RUBYGEMS_VERSION=2.6.10
   - RUBYGEMS_VERSION=latest
