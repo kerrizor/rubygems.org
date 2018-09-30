@@ -43,19 +43,7 @@ script:
   - bundle exec rake rubocop
   - script/brakeman
   - bundle exec cap -T > /dev/null
-
-jobs:
-  include:
-    - stage: docker build
-      rvm: 2.3.5
-      env:
-        - RUBYGEMS_VERSION=2.6.10
-      script: docker build -t rubygems/rubygems.org:$TRAVIS_COMMIT .
-    - stage: docker push
-      rvm: 2.3.5
-      env:
-        - RUBYGEMS_VERSION=2.6.10
-      script: echo docker push quay.io/rubygems/rubygems.org:$TRAVIS_COMMIT
+  - script/build_docker.sh
 
 env:
   - RUBYGEMS_VERSION=2.6.10
