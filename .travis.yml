@@ -21,7 +21,6 @@ addons:
 services:
   - elasticsearch
   - memcached
-  - docker
 
 sudo: false
 
@@ -44,7 +43,8 @@ script:
   - bundle exec rake rubocop
   - script/brakeman
   - bundle exec cap -T > /dev/null
-  - script/build_docker.sh
+  - sh -c "if [ '$RUBYGEMS_VERSION' != 'latest' ] && [ $TRAVIS_RUBY_VERSION != 'ruby-head' ]; then docker build -t rubygems/rubygems.org:$TRAVIS_COMMIT .; fi"
+  - sh -c "if [ '$RUBYGEMS_VERSION' != 'latest' ] && [ $TRAVIS_RUBY_VERSION != 'ruby-head' ]; then docker push quay.io/rubygems/rubygems.org:$TRAVIS_COMMIT; fi"
 
 env:
   - RUBYGEMS_VERSION=2.6.10
