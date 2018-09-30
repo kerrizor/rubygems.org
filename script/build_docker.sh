@@ -12,6 +12,8 @@ then
   exit 0
 fi
 
-docker build -t $TRAVIS_COMMIT .
+docker build -t quay.io/$TRAVIS_REPO_SLUG:$TRAVIS_COMMIT .
 
-# docker push quay.io/$TRAVIS_REPO_SLUG:$TRAVIS_COMMIT
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+docker push quay.io/$TRAVIS_REPO_SLUG:$TRAVIS_COMMIT
