@@ -1,0 +1,3 @@
+kubernetes:
+  namespace: rubygems-staging
+  context: rubygems
